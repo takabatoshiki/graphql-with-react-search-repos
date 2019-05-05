@@ -53,7 +53,23 @@ class App extends Component {
             const repositoryCount = search.repositoryCount
             const repositoryUnit = repositoryCount === 1 ? 'Repository' : 'Repositories'
             const title = `GitHub Repositories Search Results - ${repositoryCount} ${repositoryUnit}`
-            return <h2>{title}</h2>
+            return (
+              <React.Fragment>
+                <h2>{title}</h2>
+                <ul>
+                  {
+                    search.edges.map(edge => {
+                      const node = edge.node
+                      return (
+                        <li key={node.id}>
+                          <a href={node.url} target="_blank" rel="noreferrer noopener">{node.name}</a>
+                        </li>
+                      )
+                    }) 
+                  }
+                </ul>
+              </React.Fragment>
+            )
           }
         }
         </Query>
