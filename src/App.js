@@ -59,7 +59,7 @@ const DEFAULT_STATE = {
   after: null,
   last: null,
   before: null,
-  query: "graphql"
+  query: ""
 }
 
 class App extends Component {
@@ -67,19 +67,16 @@ class App extends Component {
     super(props)
     this.state = DEFAULT_STATE
 
-    this.handleChange = this.handleChange.bind(this)
+    this.myRef = React.createRef()
     this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleChange(event){
-    this.setState({
-      ...DEFAULT_STATE,
-      query: event.target.value
-    })
   }
 
   handleSubmit(event){
     event.preventDefault()
+
+    this.setState({
+      query: this.myRef.current.value
+    })
   }
 
   goPrevious(search){
@@ -98,7 +95,7 @@ class App extends Component {
       last: null,
       before: null
     })
-  }  
+  }
 
   render (){
     const { query, first, last, before, after } = this.state
@@ -107,7 +104,8 @@ class App extends Component {
     return (      
       <ApolloProvider client={client}>
         <form onSubmit={this.handleSubmit}>
-          <input value={query} onChange={this.handleChange}></input>
+          <input ref={this.myRef}></input>
+          <input type="submit" value="Submit"></input>
         </form>
         <Query
           query={SERACH_REPOSITORY}
